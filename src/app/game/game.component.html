@@ -1,0 +1,22 @@
+<div class="container my-5 text-center text-white">
+  <h3>Welcome to Rummikub!</h3>
+  <h5>-by Samin Azhan</h5>
+
+  <div class="margin-lg">
+    <div class="spinner-border spinner" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+    <div>{{gameService.game['status']}}</div>
+  </div>
+
+  <div *ngIf="!gameService.hasJoinedGame; else joinedGame">
+    <button class="btn btn-lg btn-light my-3" (click)="joinGame()">Join Game</button>
+  </div>
+
+  <ng-template #joinedGame>
+    <div>
+      You have joined as Player {{gameService.playerNo}}!
+    </div>
+    <button class="btn btn-lg btn-light my-3" (click)="startGame()">Start Game</button>
+  </ng-template>
+</div>
