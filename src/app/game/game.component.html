@@ -2,21 +2,53 @@
   <h3>Welcome to Rummikub!</h3>
   <h5>-by Samin Azhan</h5>
 
-  <div class="margin-lg">
-    <div class="spinner-border spinner" role="status">
-      <span class="sr-only">Loading...</span>
+  <div *ngIf="gameService.hasGameStarted; else gameNotStarted" class="mt-5">
+    <h3>{{gameService.game['status'].split('\n')[0]}}</h3>
+    <div class="my-3">
+      <h4>Board:</h4>
+      {{gameService.game['board']}}
     </div>
-    <div>{{gameService.game['status']}}</div>
+    <div class="my-3">
+      <h4>In Hand:</h4>
+      {{gameService.game['playerList'][gameService.playerNo - 1]['inHand']}}
+    </div>
+    <div *ngIf="gameService.game['currentPlayer'] == gameService.playerNo; else hideActionButtons">
+      <button class="btn btn-success me-3" (click)="playMove()">
+        <i class="far fa-copy"></i> Play Move
+      </button>
+      <button class="btn btn-warning me-3" (click)="draw()">
+        <i class="fas fa-stream"></i> Draw
+      </button>
+      <button class="btn btn-danger" (click)="resetGame()">
+        <i class="fas fa-times-circle"></i> Quit Game
+      </button>
+    </div>
+    <ng-template #hideActionButtons>
+      <div class="alert alert-light mx-5" role="alert">
+        Please wait for the current player to finish their turn.
+      </div>
+    </ng-template>
   </div>
 
-  <div *ngIf="!gameService.hasJoinedGame; else joinedGame">
-    <button class="btn btn-lg btn-light my-3" (click)="joinGame()">Join Game</button>
-  </div>
-
-  <ng-template #joinedGame>
-    <div>
-      You have joined as Player {{gameService.playerNo}}!
+  <ng-template #gameNotStarted>
+    <div class="margin-lg">
+      <div class="spinner-border spinner" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+      <div>{{gameService.game['status']}}</div>
     </div>
-    <button class="btn btn-lg btn-light my-3" (click)="startGame()">Start Game</button>
+
+    <div *ngIf="!gameService.hasJoinedGame; else joinedGame">
+      <button class="btn btn-lg btn-light my-3" (click)="joinGame()">Join Game</button>
+    </div>
+
+    <ng-template #joinedGame>
+      <div>
+        You have joined as Player {{gameService.playerNo}}!
+      </div>
+      <div>
+        The game will start automatically when all {{gameService.MAX_PLAYERS}} players have joined.
+      </div>
+    </ng-template>
   </ng-template>
 </div>

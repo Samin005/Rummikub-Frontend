@@ -12,8 +12,11 @@ export class GameService {
   gameURL =  this.rootURL + 'game/get/';
   startURL = this.rootURL + 'game/start/';
   playURL = this.rootURL + 'game/play/';
+  resetURL = this.rootURL + 'game/reset/';
 
+  MAX_PLAYERS = 3;
   hasJoinedGame = false;
+  hasGameStarted = false;
   playerNo = 0;
   game:{[index: string]:any} = {};
 
@@ -21,7 +24,7 @@ export class GameService {
 
   getGameRequest() {
     return this.httpClient.get(this.gameURL).pipe(
-      // delay(1000),
+      // delay(5000),
       repeat(),
       shareReplay(),
       retryWhen(errors => {
@@ -40,8 +43,21 @@ export class GameService {
     return this.httpClient.post(this.startURL, null);
   }
 
+  makeResetGameRequest() {
+    return this.httpClient.post(this.resetURL, null);
+  }
+
+  updatePlayerNo() {
+    const playerNoString = localStorage.getItem('playerNo');
+    if(playerNoString) {
+      this.playerNo = +playerNoString;
+      this.hasJoinedGame = true;
+    }
+  }
+
   reset() {
     localStorage.removeItem('playerNo');
     this.hasJoinedGame = false;
+    this.hasGameStarted = false;
   }
 }
