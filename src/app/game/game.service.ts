@@ -24,7 +24,7 @@ export class GameService {
 
   getGameRequest() {
     return this.httpClient.get(this.gameURL).pipe(
-      // delay(5000),
+      delay(500),
       repeat(),
       shareReplay(),
       retryWhen(errors => {
@@ -41,6 +41,10 @@ export class GameService {
 
   makeStartRequest() {
     return this.httpClient.post(this.startURL, null);
+  }
+
+  makePlayMoveRequest(commandString: string) {
+    return this.httpClient.post(this.playURL, commandString);
   }
 
   makeResetGameRequest() {
