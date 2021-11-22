@@ -26,9 +26,7 @@ export class GameComponent implements OnInit {
     this.gameService.updatePlayerNo();
     this.game$.subscribe(response => {
       this.gameService.game = response;
-      if (this.gameService.game['totalPlayers'] == 0) {
-        this.gameService.reset();
-      } else if (this.gameService.game['totalPlayers'] == this.gameService.MAX_PLAYERS) {
+      if (this.gameService.game['totalPlayers'] == this.gameService.MAX_PLAYERS) {
         this.gameService.hasGameStarted = true;
       }
     }, error => console.log(error));
@@ -40,10 +38,8 @@ export class GameComponent implements OnInit {
       const playerNoString = this.gameService.game['status'].split(" ")[1];
       if (!isNaN(+playerNoString)) {
         localStorage.setItem('playerNo', playerNoString);
-        console.log(playerNoString);
         this.gameService.playerNo = +playerNoString;
         this.gameService.hasJoinedGame = true;
-        console.log(this.gameService.game);
         if (this.gameService.game['totalPlayers'] == this.gameService.MAX_PLAYERS) {
           this.startGame();
         }

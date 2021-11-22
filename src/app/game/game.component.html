@@ -15,7 +15,7 @@
       <h4>Board:</h4>
       <div class="" *ngFor="let meld of gameService.game['board']; index as meldIndex">
         <div class="btn-group border border-light rounded" *ngFor="let tile of meld; index as tileIndex">
-          <button class="btn btn-light m-1" [ngClass]="boardTilesClass" (click)="reorganizeBoard(meldIndex, tileIndex)">{{tile}}</button>
+          <button class="btn btn-light m-1" [ngClass]="boardTilesClass" (click)="reorganizeBoard(meldIndex, tileIndex)" id="meld{{meldIndex}}-tile{{tileIndex}}">{{tile}}</button>
         </div>
       </div>
     </div>
@@ -25,17 +25,17 @@
         <button class="btn btn-light m-1" id="inHand-{{i}}" (click)="addTileToCommandString(i)" [ngClass]="inHandTilesClass">{{inHandTile}}</button>
       </div>
       <div>
-        <button class="btn btn-outline-light m-1" [ngClass]="btnDoneClass" id="btn-done" (click)="doneSelectingInHandTiles()">Done</button>
+        <button class="btn btn-outline-light m-1" [ngClass]="btnDoneClass" id="btnDone" (click)="doneSelectingInHandTiles()">Done</button>
       </div>
     </div>
     <div *ngIf="gameService.game['currentPlayer'] == gameService.playerNo; else hideActionButtons">
-      <button class="btn btn-warning m-1" (click)="draw()">Draw</button>
-      <button class="btn btn-success m-1" (click)="playTiles()">Play</button>
-      <button class="btn btn-primary m-1" (click)="breakBoard()">Break</button>
-      <button class="btn btn-primary m-1" (click)="mergeBoard()">Merge</button>
-      <button class="btn btn-primary m-1" (click)="addToBoard()">Add</button>
-      <button class="btn btn-info m-1" (click)="replaceJoker()">Replace Joker</button>
-      <button class="btn btn-outline-light m-1" (click)="endTurn()">End Turn</button>
+      <button class="btn btn-warning m-1" (click)="draw()" id="btnDraw">Draw</button>
+      <button class="btn btn-success m-1" (click)="playTiles()" id="btnPlay">Play</button>
+      <button class="btn btn-primary m-1" (click)="breakBoard()" id="btnBreak">Break</button>
+      <button class="btn btn-primary m-1" (click)="mergeBoard()" id="btnMerge">Merge</button>
+      <button class="btn btn-primary m-1" (click)="addToBoard()" id="btnAdd">Add</button>
+      <button class="btn btn-info m-1" (click)="replaceJoker()" id="btnReplaceJoker">Replace Joker</button>
+      <button class="btn btn-outline-light m-1" (click)="endTurn()" id="btnEndTurn">End Turn</button>
       <div>
         <button class="btn btn-danger" (click)="resetGame()">
           <i class="fas fa-times-circle"></i> Quit Game
@@ -67,7 +67,7 @@
     </div>
 
     <div *ngIf="!gameService.hasJoinedGame; else joinedGame">
-      <button class="btn btn-lg btn-light my-3" (click)="joinGame()">Join Game</button>
+      <button class="btn btn-lg btn-light my-3" (click)="joinGame()" id="btnJoinGame">Join Game</button>
     </div>
 
     <ng-template #joinedGame>
